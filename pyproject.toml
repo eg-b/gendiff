@@ -1,8 +1,11 @@
 [tool.poetry]
-name = "gendiff"
-version = "0.1.2"
-description = "generate diff"
-authors = ["eg-b"]
+name = "eg-b_gendiff"
+version = "0.1.4"
+description = "generate difference"
+authors = ["eg_b <egbv.py@gmail.com>"]
+packages = [
+    { include = "gendiff" },
+  ]
 
 [[tool.poetry.source]]
 name= "testpypi"
