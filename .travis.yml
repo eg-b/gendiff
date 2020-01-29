@@ -1,0 +1,13 @@
+language: python
+python: 3.8.1
+
+install: make
+
+before_install:
+  - pip install poetry
+
+install:
+  - make configure
+
+script:
+  - make lint
