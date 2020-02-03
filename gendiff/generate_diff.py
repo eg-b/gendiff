@@ -3,22 +3,27 @@ import os
 
 
 def generate_diff(path_to_file1, path_to_file2):
-    first_data, second_data = (
+    file1_data, file2_data = (
         json.load(open(os.path.realpath(path_to_file1))),
         json.load(open(os.path.realpath(path_to_file2)))
         )
-    first_set, second_set = set(first_data.items()), set(second_data.items())
-    common_data = dict(first_set.intersection(second_set))
-    difference = dict(first_set.symmetric_difference(second_set))
+    intersection, difference = make_compare(file1_data, file2_data)
     result = '\n'.join(
-        '   {}: {}'.format(k, v) for k, v in common_data.items()
+        '   {}: {}'.format(k, v) for k, v in intersection.items()
         )
     for k, v in difference.items():
-        if k not in second_data.keys():
+        if k not in file2_data.keys():
             result += ('\n - ' + '{}: {}'.format(k, v))
-        elif k not in first_data.keys():
+        elif k not in file1_data.keys():
             result += ('\n + ' + '{}: {}'.format(k, v))
         else:
-            result += ('\n - ' + '{}: {}'.format(k, first_data[k]))
-            result += ('\n + ' + '{}: {}'.format(k, second_data[k]))
+            result += ('\n - ' + '{}: {}'.format(k, file1_data[k]))
+            result += ('\n + ' + '{}: {}'.format(k, file2_data[k]))
     return '{\n' + result + '\n}'
+
+
+def make_compare(file1_data, file2_data):
+    file1_set, file2_set = set(file1_data.items()), set(file2_data.items())
+    intersection = dict(file1_set.intersection(file2_set))
+    difference = dict(file1_set.symmetric_difference(file2_set))
+    return intersection, difference
