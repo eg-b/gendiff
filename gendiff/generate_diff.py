@@ -9,9 +9,9 @@ def generate_diff(path_to_file1, path_to_file2):
         )
     intersection, difference = make_compare(file1_data, file2_data)
     result = '\n'.join(
-        '   {}: {}'.format(k, v) for k, v in intersection.items()
+        '   {}: {}'.format(k, v) for k, v in dict(intersection).items()
         )
-    for k, v in difference.items():
+    for k, v in dict(difference).items():
         if k not in file2_data.keys():
             result += ('\n - ' + '{}: {}'.format(k, v))
         elif k not in file1_data.keys():
@@ -23,7 +23,7 @@ def generate_diff(path_to_file1, path_to_file2):
 
 
 def make_compare(file1_data, file2_data):
-    file1_set, file2_set = set(file1_data.items()), set(file2_data.items())
-    intersection = dict(file1_set.intersection(file2_set))
-    difference = dict(file1_set.symmetric_difference(file2_set))
+    data1_set, data2_set = set(file1_data.items()), set(file2_data.items())
+    intersection = data1_set.intersection(data2_set)
+    difference = data1_set.symmetric_difference(data2_set)
     return intersection, difference
