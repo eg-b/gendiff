@@ -8,7 +8,6 @@ def test_common_items():
     assert common == {('host', 'hexlet.io')}
 
 
-
 def test_different_items():
     difference = (make_compare(content.BEFORE, content.AFTER))[1]
     assert difference == {('timeout', 20), ('timeout', 50), ('verbose', True), ('proxy', '123.234.53.22')}
