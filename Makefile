@@ -14,3 +14,6 @@ check: selfcheck lint
 
 build: check
 	poetry build
+
+test:
+	pytest --cov-report xml --cov=tests/
