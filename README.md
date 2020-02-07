@@ -5,6 +5,3 @@
 ### Installation
 
 [![asciicast](https://asciinema.org/a/vXjvUzrTkh0q2ImlvIrqd1gUF.svg)](https://asciinema.org/a/vXjvUzrTkh0q2ImlvIrqd1gUF)
-
-assert ('{\n'\n '   host: hexlet.io\n'\n ' - timeout: 50\n'\n ' + timeout: 20\n'\n ' + verbose: True\n'\n ' - proxy: 123.234.53.22\n'\n '}') 
-== ('{\n'\n '   host: hexlet.io\n'\n ' - timeout: 50\n'\n ' + timeout: 20\n'\n ' - proxy: 123.234.53.22\n'\n ' + verbose: True\n'\n '}')
