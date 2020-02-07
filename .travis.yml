@@ -1,3 +1,7 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=803ea82b5513de3c44e775dd7a20627aee487053d5b9a1507748101645f06e31
+
 language: python
 python: 3.8.1
 
@@ -6,13 +10,14 @@ install: make
 before_install:
   - pip install poetry
   - pip install pytest-cov
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
 
 install:
   - make configure
-  -
+
 before_script:
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
+
   - ./cc-test-reporter before-build
 
 script:
@@ -21,3 +26,4 @@ script:
 
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - if [[ "$TRAVIS_TEST_RESULT" == 0 ]]; then ./cc-test-reporter upload-coverage; fi
