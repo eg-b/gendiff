@@ -1,12 +1,9 @@
-import json
 import os
+from gendiff.parsers import parse_files
 
 
 def generate_diff(path_to_file1, path_to_file2):
-    file1_data, file2_data = (
-        json.load(open(os.path.realpath(path_to_file1))),
-        json.load(open(os.path.realpath(path_to_file2)))
-        )
+    file1_data, file2_data = parse_files(path_to_file1, path_to_file2)
     intersection, difference = make_compare(file1_data, file2_data)
     return format_diff(file1_data, file2_data, intersection, difference)
 
