@@ -1,4 +1,3 @@
-import os
 from gendiff.parsers import parse_files
 
 
