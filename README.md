@@ -4,7 +4,12 @@
 
 ### Installation
 
-[![asciicast](https://asciinema.org/a/vXjvUzrTkh0q2ImlvIrqd1gUF.svg)](https://asciinema.org/a/vXjvUzrTkh0q2ImlvIrqd1gUF)
+[![asciicast](https://asciinema.org/a/g2sWU1Tc52NyT47X7Pp2Fnl4U.svg)](https://asciinema.org/a/g2sWU1Tc52NyT47X7Pp2Fnl4U)
 
-assert ('{\n'\n '   host: hexlet.io\n'\n ' - timeout: 50\n'\n ' + timeout: 20\n'\n ' + verbose: True\n'\n ' - proxy: 123.234.53.22\n'\n '}') 
-== ('{\n'\n '   host: hexlet.io\n'\n ' - timeout: 50\n'\n ' + timeout: 20\n'\n ' - proxy: 123.234.53.22\n'\n ' + verbose: True\n'\n '}')
+### json gendiff
+
+[![asciicast](https://asciinema.org/a/1eTcs9fW7SMawCBtO5uWwN30T.svg)](https://asciinema.org/a/1eTcs9fW7SMawCBtO5uWwN30T)
+
+### yaml gendiff
+
+[![asciicast](https://asciinema.org/a/pBc59xrM2LviG556BPvuqoDRw.svg)](https://asciinema.org/a/pBc59xrM2LviG556BPvuqoDRw)
