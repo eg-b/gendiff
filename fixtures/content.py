@@ -5,28 +5,29 @@ BEFORE = {
 }
 
 AFTER = {
+  "host": "hexlet.io",
   "timeout": 20,
   "verbose": True,
-  "host": "hexlet.io"
 }
 
 NOTHING = {}
 
-intersections = {('host', 'hexlet.io')}
-differences = {('timeout', 20), ('timeout', 50), ('verbose', True), ('proxy', '123.234.53.22')}
+intersections = {'host', 'timeout'}
+removed_items = {'proxy'}
+added_items = {'verbose'}
 
 result = '''{
    host: hexlet.io
  - timeout: 50
  + timeout: 20
- + verbose: True
  - proxy: 123.234.53.22
+ + verbose: True
 }'''
 
 result_all_common = '''{
    host: hexlet.io
-   timeout: 50
    proxy: 123.234.53.22
+   timeout: 50
 }'''
 
 result_all_different = '''{

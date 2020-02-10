@@ -5,19 +5,24 @@ import json, os
 
 def test_common_items():
     common = (make_compare(content.BEFORE, content.AFTER))[0]
-    assert common == {('host', 'hexlet.io')}
+    assert common == {'host', 'timeout'}
 
 
-def test_different_items():
-    difference = (make_compare(content.BEFORE, content.AFTER))[1]
-    assert difference == {('timeout', 20), ('timeout', 50), ('verbose', True), ('proxy', '123.234.53.22')}
+def test_removed_items():
+    removed = (make_compare(content.BEFORE, content.AFTER))[1]
+    assert removed == {'proxy'}
+
+
+def test_added_items():
+    added = (make_compare(content.BEFORE, content.AFTER))[2]
+    assert added == {'verbose'}
 
 
 def test_no_common_items():
-    common, difference = make_compare(content.NOTHING, content.AFTER)
-    assert common == set() and difference == {('host', 'hexlet.io'), ('timeout', 20), ('verbose', True)}
+    common, removed, added = make_compare(content.NOTHING, content.AFTER)
+    assert common == set() and added == {'host', 'timeout', 'verbose'}
 
 
 def test_no_different_items():
-    common, difference = make_compare(content.AFTER, content.AFTER)
-    assert common == {('host', 'hexlet.io'), ('timeout', 20), ('verbose', True)} and difference == set()
+    common, removed, added = make_compare(content.AFTER, content.AFTER)
+    assert common == {'host', 'timeout', 'verbose'} and removed == set() and added == set()
