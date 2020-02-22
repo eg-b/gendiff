@@ -10,9 +10,14 @@ AFTER = {
   "verbose": True,
 }
 
+diff = ({'host'}, {'timeout'}, {'proxy'}, {'verbose'})
+diff_all_different = ({}, {}, {}, sorted({'host', 'timeout', 'verbose'}))
+diff_all_common = (sorted({'host', 'timeout', 'proxy'}), {}, {}, {})
+
 NOTHING = {}
 
-intersections = {'host', 'timeout'}
+identical = {'host'}
+updated = {'timeout'}
 removed_items = {'proxy'}
 added_items = {'verbose'}
 

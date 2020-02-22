@@ -1,6 +1,5 @@
-from gendiff.generate_diff import make_compare, generate_diff
-from fixtures import content
-import json, os
+from gendiff.generate_diff import generate_diff
+import os
 
 def test_relpath_json():
     assert generate_diff('fixtures/1.json', 'fixtures/2.json') == '{\n   host: hexlet.io\n - timeout: 50\n}'

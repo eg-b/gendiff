@@ -1,28 +1,40 @@
-from gendiff.generate_diff import make_compare, generate_diff
-from fixtures import content
-import json, os
+from gendiff.generate_diff import compare
+from test_data import content
 
 
 def test_common_items():
-    common = (make_compare(content.BEFORE, content.AFTER))[0]
-    assert common == {'host', 'timeout'}
+    diff = compare(content.BEFORE, content.AFTER)
+    common = diff[0]
+    assert common == {'host'}
+
+
+def test_updated_items():
+    diff = compare(content.BEFORE, content.AFTER)
+    updated = diff[1]
 
 
 def test_removed_items():
-    removed = (make_compare(content.BEFORE, content.AFTER))[1]
+    diff = compare(content.BEFORE, content.AFTER)
+    removed = diff[2]
     assert removed == {'proxy'}
 
 
 def test_added_items():
-    added = (make_compare(content.BEFORE, content.AFTER))[2]
+    diff = compare(content.BEFORE, content.AFTER)
+    added = diff[3]
     assert added == {'verbose'}
 
 
 def test_no_common_items():
-    common, removed, added = make_compare(content.NOTHING, content.AFTER)
+    diff = compare(content.NOTHING, content.AFTER)
+    common = diff[0]
+    added = diff[3]
     assert common == set() and added == {'host', 'timeout', 'verbose'}
 
 
 def test_no_different_items():
-    common, removed, added = make_compare(content.AFTER, content.AFTER)
+    diff = compare(content.AFTER, content.AFTER)
+    common = diff[0]
+    removed = diff[2]
+    added = diff[3]
     assert common == {'host', 'timeout', 'verbose'} and removed == set() and added == set()
