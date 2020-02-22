@@ -45,12 +45,18 @@ def format_diff(file1_data, file2_data, diff):
     identical, updated, removed, added = diff
     result = ''
     for k in identical:
-        result += ('\n   {}: {}'.format(k, file2_data[k]))
+        result += ('   {}: {}\n'.format(k, file2_data[k]))
     for k in updated:
-        result += ('\n - ' + '{}: {}'.format(k, file1_data[k]))
-        result += ('\n + ' + '{}: {}'.format(k, file2_data[k]))
+        if type(file1_data[k]) == dict and type(file2_data[k]) == dict:
+            inner_data1, inner_data2 = file1_data[k], file2_data[k]
+            child = compare(inner_data1, inner_data2)
+            inner_diff = format_diff(inner_data1, inner_data2, child)
+            result += ('   {}: {}\n'.format(k, inner_diff))
+        else:
+            result += (' - ' + '{}: {}\n'.format(k, file1_data[k]))
+            result += (' + ' + '{}: {}\n'.format(k, file2_data[k]))
     for k in removed:
-        result += ('\n - ' + '{}: {}'.format(k, file1_data[k]))
+        result += (' - ' + '{}: {}\n'.format(k, file1_data[k]))
     for k in added:
-        result += ('\n + ' + '{}: {}'.format(k, file2_data[k]))
-    return '{' + result + '\n}'
+        result += (' + ' + '{}: {}\n'.format(k, file2_data[k]))
+    return '{\n' + result + '\n}'
