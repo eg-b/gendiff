@@ -1,5 +1,8 @@
 from gendiff.parsers import parse_paths
-import os, json, yaml
+import os
+import json
+import yaml
+
 
 def generate_diff(path_to_file1, path_to_file2):
     data_format = parse_paths(path_to_file1, path_to_file2)
