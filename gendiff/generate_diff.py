@@ -7,6 +7,7 @@ import yaml
 def generate_diff(path_to_file1, path_to_file2):
     data_format = parse_paths(path_to_file1, path_to_file2)
     if data_format == 'json':
+
         file1_data, file2_data = (
             json.load(open(os.path.realpath(path_to_file1))),
             json.load(open(os.path.realpath(path_to_file2)))
@@ -23,7 +24,7 @@ def generate_diff(path_to_file1, path_to_file2):
             )
         )
     diff = compare(file1_data, file2_data)
-    result = format_diff(file1_data, file2_data, diff)
+    result = format_diff(diff)
     return result
 
 
@@ -37,26 +38,59 @@ def compare(file1_data, file2_data):
             updated.add(k)
     removed = data1_set.difference(data2_set)
     added = data2_set.difference(data1_set)
-    diff = identical, updated, removed, added
+    identical = dict.fromkeys(identical)
+    updated_old = dict.fromkeys(updated)
+    updated_new = dict.fromkeys(updated)
+    removed = dict.fromkeys(removed)
+    added = dict.fromkeys(added)
+    for k in identical:
+        identical[k] = file1_data[k]
+    for k in updated_old:
+        updated_old[k] = file1_data[k]
+    for k in updated_new:
+        updated_new[k] = file2_data[k]
+    for k in removed:
+        removed[k] = file1_data[k]
+    for k in added:
+        added[k] = file2_data[k]
+    diff = identical, updated_old, updated_new, removed, added
     return diff
 
 
-def format_diff(file1_data, file2_data, diff):
-    identical, updated, removed, added = diff
+def format_diff(diff, depth_level=1):
+    identical, updated_old, updated_new, removed, added = diff
+    diff = identical, updated_new, removed, added
     result = ''
-    for k in identical:
-        result += ('   {}: {}\n'.format(k, file2_data[k]))
-    for k in updated:
-        if type(file1_data[k]) == dict and type(file2_data[k]) == dict:
-            inner_data1, inner_data2 = file1_data[k], file2_data[k]
-            child = compare(inner_data1, inner_data2)
-            inner_diff = format_diff(inner_data1, inner_data2, child)
-            result += ('   {}: {}\n'.format(k, inner_diff))
-        else:
-            result += (' - ' + '{}: {}\n'.format(k, file1_data[k]))
-            result += (' + ' + '{}: {}\n'.format(k, file2_data[k]))
-    for k in removed:
-        result += (' - ' + '{}: {}\n'.format(k, file1_data[k]))
-    for k in added:
-        result += (' + ' + '{}: {}\n'.format(k, file2_data[k]))
-    return '{\n' + result + '\n}'
+    for group in diff:
+        for key in group.keys():
+            if type(group[key]) == dict:
+                if key in updated_new:
+                    if type(updated_old[key]) == dict and type(updated_new[key]) == dict:
+                        child = compare(updated_old[key], updated_new[key])
+                        depth_level += 1
+                        value = format_diff(child, depth_level)
+                        depth_level -= 1
+                        result += '\n' + '    ' * depth_level + '{}: {}'.format(key, value)
+
+                else:
+                    inner_result = ''
+                    depth_level += 1
+                    for k, v in group[key].items():
+                        inner_result += '\n' + '    ' * depth_level + '{}: {}'.format(k, v)
+                        value = '{' + inner_result + '\n' + '    ' * (depth_level - 1) + '}'
+                    depth_level -= 1
+                    result += '\n' + '    ' * depth_level + '{}: {}'.format(key, value)
+            else:
+                if key in identical:
+                    result += '\n' + '    ' * depth_level + '{}: {}'.format(key, group[key])
+                elif key in updated_new:
+                    result += '\n' + '   ' * depth_level + '- {}: {}'.format(key, updated_old[key])
+                    result += '\n' + '   ' * depth_level + '+ {}: {}'.format(key, group[key])
+                elif key in removed:
+                    result += '\n' + '   ' * depth_level + '- {}: {}'.format(key, group[key])
+                elif key in added:
+                    result += '\n' + '   ' * depth_level  + '+ {}: {}'.format(key, group[key])
+    return '{' + result + '\n' + '    ' * (depth_level - 1) + '}'
+
+
+проверить почему group 2 , 3 не попадают в аддед и ремувед
