@@ -1,28 +1,17 @@
 from gendiff.parsers import parse_paths
 import os
-import json
-import yaml
 
 
 def generate_diff(path_to_file1, path_to_file2):
     data_format = parse_paths(path_to_file1, path_to_file2)
     if data_format == 'json':
-
-        file1_data, file2_data = (
-            json.load(open(os.path.realpath(path_to_file1))),
-            json.load(open(os.path.realpath(path_to_file2)))
-        )
-    elif data_format == 'yaml':
-        file1_data, file2_data = (
-            (
-                yaml.load(open(os.path.realpath(path_to_file1)),
-                          Loader=yaml.SafeLoader)
-            ),
-            (
-                yaml.load(open(os.path.realpath(path_to_file2)),
-                          Loader=yaml.SafeLoader)
-            )
-        )
+        import json as data_format
+    if data_format == 'yaml':
+        import yaml as data_format
+    file1_data, file2_data = (
+        data_format.load(open(os.path.realpath(path_to_file1))),
+        data_format.load(open(os.path.realpath(path_to_file2)))
+    )
     diff = compare(file1_data, file2_data)
     result = format_diff(diff)
     return result
@@ -38,11 +27,13 @@ def compare(file1_data, file2_data):
             updated.add(k)
     removed = data1_set.difference(data2_set)
     added = data2_set.difference(data1_set)
-    identical = dict.fromkeys(identical)
-    updated_old = dict.fromkeys(updated)
-    updated_new = dict.fromkeys(updated)
-    removed = dict.fromkeys(removed)
-    added = dict.fromkeys(added)
+    identical, updated_old, updated_new, removed, added = (
+        dict.fromkeys(identical),
+        dict.fromkeys(updated),
+        dict.fromkeys(updated),
+        dict.fromkeys(removed),
+        dict.fromkeys(added)
+    )
     for k in identical:
         identical[k] = file1_data[k]
     for k in updated_old:
@@ -57,32 +48,54 @@ def compare(file1_data, file2_data):
     return diff
 
 
-def format_diff(diff, depth_level=1):
+def format_diff(diff, indent_lvl=1):
     identical, updated_old, updated_new, removed, added = diff
     diff = identical, updated_new, removed, added
     result = ''
     for group in diff:
         for key in group.keys():
             if type(group[key]) == dict:
-                if key in updated_new:
-                    if type(updated_old[key]) == dict and type(updated_new[key]) == dict:
-                        child = compare(updated_old[key], updated_new[key])
-                        value = format_diff(child, depth_level + 1)
-                        result += '\n' + '    ' * depth_level + '{}: {}'.format(key, value)
-                else:
-                    inner_result = ''
-                    for k, v in group[key].items():
-                        inner_result += '\n' + '    ' * (depth_level + 1) + '{}: {}'.format(k, v)
-                        value = '{' + inner_result + '\n' + '    ' * (depth_level) + '}'
-                    result += '\n' + '    ' * depth_level + '{}: {}'.format(key, value)
+                inner_result = ''
+                for k, v in group[key].items():
+                    inner_result += (
+                        '\n' + '    ' * (indent_lvl + 1)
+                        + '{}: {}'.format(k, v)
+                    )
+                value = '{' + inner_result + '\n' + '    ' * (indent_lvl) + '}'
             else:
-                if key in identical:
-                    result += '\n' + '    ' * depth_level + '{}: {}'.format(key, group[key])
-                elif key in updated_new:
-                    result += '\n' + '   ' * depth_level + '- {}: {}'.format(key, updated_old[key])
-                    result += '\n' + '   ' * depth_level + '+ {}: {}'.format(key, group[key])
-                elif key in removed:
-                    result += '\n' + '   ' * depth_level + '- {}: {}'.format(key, group[key])
-                elif key in added:
-                    result += '\n' + '   ' * depth_level  + '+ {}: {}'.format(key, group[key])
-    return '{' + result + '\n' + '    ' * (depth_level - 1) + '}'
+                value = group[key]
+            if key in identical:
+                result += (
+                    '\n' + '    ' * indent_lvl + '{}: {}'.format(key, value)
+                )
+            if key in updated_new:
+                if (
+                    type(updated_old[key]) == dict
+                    and type(updated_new[key]) == dict
+                ):
+                    child = compare(updated_old[key], updated_new[key])
+                    value = format_diff(child, indent_lvl + 1)
+                    result += (
+                        '\n' + '    ' * indent_lvl +
+                        '{}: {}'.format(key, value)
+                    )
+                else:
+                    result += (
+                        '\n' + '   ' * indent_lvl +
+                        '- {}: {}'.format(key, updated_old[key])
+                    )
+                    result += (
+                        '\n' + '   ' * indent_lvl +
+                        '+ {}: {}'.format(key, value)
+                    )
+            if key in removed:
+                result += (
+                    '\n' + '   ' * indent_lvl +
+                    '- {}: {}'.format(key, value)
+                )
+            if key in added:
+                result += (
+                    '\n' + '   ' * indent_lvl +
+                    '+ {}: {}'.format(key, value)
+                )
+    return '{' + result + '\n' + '    ' * (indent_lvl - 1) + '}'
