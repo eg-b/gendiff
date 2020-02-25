@@ -67,18 +67,13 @@ def format_diff(diff, depth_level=1):
                 if key in updated_new:
                     if type(updated_old[key]) == dict and type(updated_new[key]) == dict:
                         child = compare(updated_old[key], updated_new[key])
-                        depth_level += 1
-                        value = format_diff(child, depth_level)
-                        depth_level -= 1
+                        value = format_diff(child, depth_level + 1)
                         result += '\n' + '    ' * depth_level + '{}: {}'.format(key, value)
-
                 else:
                     inner_result = ''
-                    depth_level += 1
                     for k, v in group[key].items():
-                        inner_result += '\n' + '    ' * depth_level + '{}: {}'.format(k, v)
-                        value = '{' + inner_result + '\n' + '    ' * (depth_level - 1) + '}'
-                    depth_level -= 1
+                        inner_result += '\n' + '    ' * (depth_level + 1) + '{}: {}'.format(k, v)
+                        value = '{' + inner_result + '\n' + '    ' * (depth_level) + '}'
                     result += '\n' + '    ' * depth_level + '{}: {}'.format(key, value)
             else:
                 if key in identical:
@@ -91,6 +86,3 @@ def format_diff(diff, depth_level=1):
                 elif key in added:
                     result += '\n' + '   ' * depth_level  + '+ {}: {}'.format(key, group[key])
     return '{' + result + '\n' + '    ' * (depth_level - 1) + '}'
-
-
-проверить почему group 2 , 3 не попадают в аддед и ремувед
