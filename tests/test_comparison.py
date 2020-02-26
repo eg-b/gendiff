@@ -31,7 +31,7 @@ def test_no_common_items():
     diff = compare(content.NOTHING, content.AFTER)
     identical, updated_old, updated_new, removed, added = diff
     assert identical == {} and added == {'host': 'hexlet.io', 'timeout': 20, 'verbose': True}
-git s
+
 
 def test_no_different_items():
     diff = compare(content.AFTER, content.AFTER)
