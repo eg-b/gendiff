@@ -13,3 +13,7 @@
 ### yaml gendiff
 
 [![asciicast](https://asciinema.org/a/pBc59xrM2LviG556BPvuqoDRw.svg)](https://asciinema.org/a/pBc59xrM2LviG556BPvuqoDRw)
+
+### recursive diff
+
+[![asciicast](https://asciinema.org/a/2Gwo37yJRwvUsRyzosmNk22AY.svg)](https://asciinema.org/a/2Gwo37yJRwvUsRyzosmNk22AY)
