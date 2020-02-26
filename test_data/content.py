@@ -10,9 +10,9 @@ AFTER = {
   "verbose": True,
 }
 
-diff = ({'host'}, {'timeout'}, {'proxy'}, {'verbose'})
-diff_all_different = ({}, {}, {}, sorted({'host', 'timeout', 'verbose'}))
-diff_all_common = (sorted({'host', 'timeout', 'proxy'}), {}, {}, {})
+diff = ({"host": "hexlet.io"}, {"timeout": 50}, {"timeout": 20}, {"proxy": "123.234.53.22"}, {"verbose": True})
+diff_all_different = ({}, {}, {}, sorted({"host": "hexlet.io", "timeout": 20, "verbose": True}))
+diff_all_common = (sorted({"host": "hexlet.io", "timeout": 50, "proxy": "123.234.53.22"}), {}, {}, {}, {})
 
 NOTHING = {}
 
