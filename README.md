@@ -17,3 +17,7 @@
 ### recursive diff
 
 [![asciicast](https://asciinema.org/a/2Gwo37yJRwvUsRyzosmNk22AY.svg)](https://asciinema.org/a/2Gwo37yJRwvUsRyzosmNk22AY)
+
+### plain format diff
+
+[![asciicast](https://asciinema.org/a/jPwnvVQ5UL42GxAqLtuyUWcfx.svg)](https://asciinema.org/a/jPwnvVQ5UL42GxAqLtuyUWcfx)
