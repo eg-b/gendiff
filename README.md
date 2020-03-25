@@ -6,7 +6,7 @@
 
 [![asciicast](https://asciinema.org/a/g2sWU1Tc52NyT47X7Pp2Fnl4U.svg)](https://asciinema.org/a/g2sWU1Tc52NyT47X7Pp2Fnl4U)
 
-### json gendiff
+### jsontxt gendiff
 
 [![asciicast](https://asciinema.org/a/1eTcs9fW7SMawCBtO5uWwN30T.svg)](https://asciinema.org/a/1eTcs9fW7SMawCBtO5uWwN30T)
 
@@ -21,3 +21,7 @@
 ### plain format diff
 
 [![asciicast](https://asciinema.org/a/jPwnvVQ5UL42GxAqLtuyUWcfx.svg)](https://asciinema.org/a/jPwnvVQ5UL42GxAqLtuyUWcfx)
+
+### json format diff
+
+[![asciicast](https://asciinema.org/a/RBpjnwEDImzFeAgp4JLYwUzeE.svg)](https://asciinema.org/a/RBpjnwEDImzFeAgp4JLYwUzeE)
