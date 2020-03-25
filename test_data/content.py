@@ -76,3 +76,6 @@ Property 'group2' was removed
 Property 'group3' was added with value: 'complex value'
 Property 'group1.baz' was changed. From 'bas' to 'bars'
 '''
+
+result_json_diff = '''{"removed_values": {"group2": {"abc": "12345"}}, "added_values": {"group3": {"fee": "100500"}},\
+ "updated_old_values": {"group1": {"baz": "bas"}}, "updated_new_values": {"group1": {"baz": "bars"}}}'''
