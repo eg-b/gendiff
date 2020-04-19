@@ -2,38 +2,27 @@ from gendiff.diff_calculator import compare
 
 
 def render_diff(diff, parent=''):
-    identical, updated_old, updated_new, removed, added = diff
-    diff = identical, removed, added, updated_new
-    result = ''
-    for group in diff:
-        for key in group.keys():
-            if type(group[key]) == dict:
-                value = 'complex value'
+    result = []
+    for group, content in diff.items():
+        for key, value in content.items():
+            if type(value) == dict:
+                diff_value = 'complex value'
             else:
-                value = group[key]
-            if key in removed:
-                result += (
-                    "Property '{}{}' was removed".format(parent, key) + '\n'
-                )
-            if key in added:
-                result += (
-                    "Property '{}{}' was added with value: '{}'"
-                    .format(parent, key, value) + '\n'
-                )
-            if key in updated_new:
+                diff_value = value
+            if group == 'removed':
+                result.append(f"Property '{parent}{key}' was removed")
+            elif group == 'added':
+                result.append(f"Property '{parent}{key}' was added with value: '{diff_value}'")
+            elif group == 'updated_new':
                 if (
-                        type(updated_old[key]) == dict
-                        and type(updated_new[key]) == dict
+                        type(diff['updated_old'][key]) == dict
+                        and type(value) == dict
                 ):
                     parent += key + '.'
-                    child = compare(updated_old[key], updated_new[key])
-                    result += render_diff(child, parent)
+                    child = compare(diff['updated_old'][key], value)
+                    result.append(render_diff(child, parent))
                     parent = ''
                 else:
-                    result += (
-                            "Property '{}{}' was changed. From '{}' to '{}'"
-                            .format(
-                                parent, key, updated_old[key], updated_new[key]
-                                ) + '\n'
-                    )
-    return result
+                    result.append(f"Property '{parent}{key}' was changed."
+                                  f" From '{diff['updated_old'][key]}' to '{value}'")
+    return ('\n'.join(result))

@@ -25,5 +25,12 @@ def compare(file1_data, file2_data):
         removed[k] = file1_data[k]
     for k in added:
         added[k] = file2_data[k]
-    diff = identical, updated_old, updated_new, removed, added
+    diff = {
+        "removed": removed,
+        "added": added,
+        "identical": identical,
+        "updated_old": updated_old,
+        "updated_new": updated_new
+    }
     return diff
+
