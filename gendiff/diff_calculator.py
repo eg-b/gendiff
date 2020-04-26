@@ -33,4 +33,3 @@ def compare(file1_data, file2_data):
         "updated_new": updated_new
     }
     return diff
-

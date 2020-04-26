@@ -2,8 +2,6 @@ from gendiff.diff_calculator import compare
 
 
 def render_diff(diff, indent_lvl=1):
-    def iscomplex(value):
-        return True if type(value) is dict else False
     result = []
     indent = '    ' * indent_lvl
     indent_minus = indent[:-2] + '- '
@@ -36,6 +34,8 @@ def render_diff(diff, indent_lvl=1):
                     diff_value = render_diff(child, indent_lvl + 1)
                     result.append(indent + f'{key}: {diff_value}')
                 else:
-                    result.append(indent_minus + f"{key}: {diff['updated_old'][key]}")
-                    result.append(indent_plus  + new_string)
-    return '{' + '\n' + ('\n'.join(result)) + '\n' + '    ' * (indent_lvl - 1) + '}'
+                    result.append(indent_minus
+                                  + f"{key}: {diff['updated_old'][key]}")
+                    result.append(indent_plus + new_string)
+    return '{' + '\n' + ('\n'.join(result)) + '\n'\
+           + '    ' * (indent_lvl - 1) + '}'

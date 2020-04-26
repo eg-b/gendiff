@@ -12,7 +12,8 @@ def render_diff(diff, parent=''):
             if group == 'removed':
                 result.append(f"Property '{parent}{key}' was removed")
             elif group == 'added':
-                result.append(f"Property '{parent}{key}' was added with value: '{diff_value}'")
+                result.append(f"Property '{parent}{key}'"
+                              f" was added with value: '{diff_value}'")
             elif group == 'updated_new':
                 if (
                         type(diff['updated_old'][key]) == dict
@@ -24,5 +25,6 @@ def render_diff(diff, parent=''):
                     parent = ''
                 else:
                     result.append(f"Property '{parent}{key}' was changed."
-                                  f" From '{diff['updated_old'][key]}' to '{value}'")
+                                  f" From '{diff['updated_old'][key]}'"
+                                  f" to '{value}'")
     return ('\n'.join(result))
