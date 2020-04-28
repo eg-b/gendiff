@@ -12,13 +12,15 @@ AFTER = {
 
 BEFORE_2 = {
   "common": {
-    "setting1": "Value 1",
+    "setting2": "200",
+    "setting3": True,
     "setting6": {
       "key": "value"
     }
   },
   "group1": {
     "baz": "bas",
+    "foo": "bar"
   },
   "group2": {
     "abc": "12345"
@@ -27,13 +29,15 @@ BEFORE_2 = {
 
 AFTER_2 = {
   "common": {
-    "setting1": "Value 1",
+    "setting3": True,
+    "setting4": "blah blah",
     "setting5": {
       "key5": "value5"
     }
   },
 
   "group1": {
+    "foo": "bar",
     "baz": "bars"
   },
 
@@ -42,40 +46,51 @@ AFTER_2 = {
   }
 }
 
-diff_recursive = ({}, {'common': {'setting1': 'Value 1', 'setting6': {'key': 'value'}}, 'group1': {'baz': 'bas'}}, {'common': {'setting1': 'Value 1', 'setting5': {'key5': 'value5'}}, 'group1': {'baz': 'bars'}}, {'group2': {'abc': '12345'}}, {'group3': {'fee': '100500'}})
-diff_recursive_plain = ({}, {'group1': {'baz': 'bas'}}, {'group1': {'baz': 'bars'}}, {'group2': {'abc': '12345'}}, {'group3': {'fee': '100500'}})
+DIFF_RECURSIVE = {
+  'removed': {'group2': {'abc': '12345'}},
+  'added': {'group3': {'fee': '100500'}},
+  'identical': {},
+  'updated_old': {'common': {'setting3': True, 'setting6': {'key': 'value'}}, 'group1': {'baz': 'bas', 'foo': 'bar'}},
+  'updated_new': {'common': {'setting3': True,  'setting5': {'key5': 'value5'}}, 'group1': {'foo': 'bar', 'baz': 'bars'}}
+}
+
 
 NOTHING = {}
 
 
 
-result_recursive_diff = '''{
+RESULT_RECURSIVE_DIFF = '''{
+  - group2: {
+        abc: 12345
+    }
+  + group3: {
+        fee: 100500
+    }
     common: {
-        setting1: Value 1
       - setting6: {
             key: value
         }
       + setting5: {
             key5: value5
         }
+        setting3: True
     }
     group1: {
+        foo: bar
       - baz: bas
       + baz: bars
     }
-   - group2: {
-        abc: 12345
-    }
-   + group3: {
-        fee: 100500
-    }
 }'''
 
-result_recursive_diff_plain = '''\
+RESULT_RECURSIVE_DIFF_PLAIN = '''\
 Property 'group2' was removed
 Property 'group3' was added with value: 'complex value'
-Property 'group1.baz' was changed. From 'bas' to 'bars'
+Property 'common.setting6' was removed
+Property 'common.setting5' was added with value: 'complex value'
+Property 'group1.baz' was changed. From 'bas' to 'bars'\
 '''
 
-result_json_diff = '''{"removed_values": {"group2": {"abc": "12345"}}, "added_values": {"group3": {"fee": "100500"}},\
- "updated_old_values": {"group1": {"baz": "bas"}}, "updated_new_values": {"group1": {"baz": "bars"}}}'''
+RESULT_JSON_DIFF = '''{"removed": {"group2": {"abc": "12345"}}, "added": {"group3": {"fee": "100500"}},\
+ "identical": {}, "updated_old": {"common": {"setting3": true, "setting6": {"key": "value"}},\
+ "group1": {"baz": "bas", "foo": "bar"}}, "updated_new": {"common": {"setting3": true, "setting5": {"key5": "value5"}},\
+ "group1": {"foo": "bar", "baz": "bars"}}}'''

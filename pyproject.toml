@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "eg-b_gendiff"
-version = "0.5.10"
+version = "0.6.1"
 description = "generate difference"
 authors = ["eg_b <egbv.py@gmail.com>"]
 packages = [
@@ -14,10 +14,9 @@ url= "https://test.pypi.org/legacy/"
 [tool.poetry.dependencies]
 python = "^3.6"
 pyYAML = "^5.3"
-
 [tool.poetry.dev-dependencies]
 flake8 = "^3.7.9"
-
+pytest = "^5.4.1"
 [tool.poetry.scripts]
 gendiff = "gendiff.scripts.gendiff:main"
 
