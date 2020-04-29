@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "eg-b_gendiff"
-version = "0.6.1"
+version = "0.6.2"
 description = "generate difference"
 authors = ["eg_b <egbv.py@gmail.com>"]
 packages = [
@@ -17,6 +17,8 @@ pyYAML = "^5.3"
 [tool.poetry.dev-dependencies]
 flake8 = "^3.7.9"
 pytest = "^5.4.1"
+coverage = "^5.1"
+pytest-cov = "^2.8.1"
 [tool.poetry.scripts]
 gendiff = "gendiff.scripts.gendiff:main"
 
