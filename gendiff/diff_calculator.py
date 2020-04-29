@@ -1,13 +1,13 @@
 def compare(file1_data, file2_data):
-    data1_set, data2_set = set(file1_data.keys()), set(file2_data.keys())
+    data1_set, data2_set = file1_data.keys(), file2_data.keys()
     identical, updated = set(), set()
-    for k in data1_set.intersection(data2_set):
+    for k in data1_set & data2_set:
         if file1_data[k] == file2_data[k]:
             identical.add(k)
         else:
             updated.add(k)
-    removed = data1_set.difference(data2_set)
-    added = data2_set.difference(data1_set)
+    removed = data1_set - data2_set
+    added = data2_set - data1_set
     identical, updated_old, updated_new, removed, added = (
         dict.fromkeys(identical),
         dict.fromkeys(updated),
