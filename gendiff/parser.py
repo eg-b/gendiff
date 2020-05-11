@@ -1,6 +1,5 @@
 import argparse
-from gendiff.formats_helper import get_output_format
-
+from gendiff.generate_diff import get_output_format
 
 parser = argparse.ArgumentParser(description='Generate diff')
 parser.add_argument('-f', '--format', action='store',
@@ -8,3 +7,5 @@ parser.add_argument('-f', '--format', action='store',
                     help='set format of output', type=get_output_format)
 parser.add_argument('first_file')
 parser.add_argument('second_file')
+
+
