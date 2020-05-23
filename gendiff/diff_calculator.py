@@ -17,6 +17,10 @@ before = {
   },
   "group2": {
     "abc": "12345"
+  },
+  "same": {
+    "abc": "12345",
+    "cba": "2222"
   }
 }
 
@@ -40,15 +44,19 @@ after = {
 
   "group3": {
     "fee": "100500"
-  }
+  },
+  "same": {
+    "abc": "12345",
+    "cba": "2222"
+    }
 }
 
 def compare(file1_data, file2_data):
     diff = {}
     data1_set, data2_set = file1_data.keys(), file2_data.keys()
     unchanged, updated = set(), set()
-    removed = data1_set - data2_set
-    added = data2_set - data1_set
+    removed = dict.fromkeys(data1_set - data2_set)
+    added = dict.fromkeys(data2_set - data1_set)
 
     for k in data1_set & data2_set:
         if file1_data[k] == file2_data[k]:
@@ -88,43 +96,4 @@ def compare(file1_data, file2_data):
             {k + ' changed_from_to': (file1_data[k], file2_data[k])})
     return diff
 
-
-#print(compare(before, after))
-'''
-{'common changed':
-     {'site changed': 
-          {'base removed': 'hexlet.io', 
-           'base2 unchanged': 'hexlet.io'},
-      'setting6 removed':
-          {'key': 'value'},
-      'setting2 removed': '200',
-      'setting5 added': {'key5': 'value5'},
-      'setting4 added': 'blah blah', 
-      'setting3 unchanged': 'true',
-      'setting1 unchanged': 'Value 1'}, 
- 'group1 changed':
-     {'foo unchanged':
-          'bar', 'baz changed_from_to': ('bas', 'bars')}, 
- 'group2 removed':
-     {'abc': '12345'}, 
- 'group3 added': 
-     {'fee': '100500'}}
-'''
-'''
-{'common changed':
-     {'site changed':
-          {'base removed': 'hexlet.io',
-           'base2 unchanged': 'hexlet.io'},
-      'setting2 removed': '200', 
-      'setting6 removed': {'key removed': 'value'}, 
-      'setting5 added': {'key5 added': 'value5'},
-      'setting4 added': 'blah blah',
-      'setting1 unchanged': 'Value 1',
-      'setting3 unchanged': 'true'},
- 'group1 changed':
-     {'foo unchanged': 'bar',
-      'baz changed_from_to': ('bas', 'bars')},
- 'group2 removed': {'abc removed': '12345'},
- 'group3 added': {'fee added': '100500'}}
-
-'''
+print(compare(before, after))
