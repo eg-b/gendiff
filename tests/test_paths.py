@@ -2,9 +2,9 @@ from gendiff.generate_diff import generate_diff
 from gendiff.formatters.plain import render_diff as render
 import os
 
+
 def test_relpath():
     assert generate_diff(render, 'tests/fixtures/1.json', 'tests/fixtures/2.json') == "Property 'timeout' was removed"
-
 
 
 def test_abspath():
