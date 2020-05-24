@@ -1,6 +1,3 @@
-diff = {'group1->changed': {'foo->unchanged': 'bar', 'baz->changed_from_to': ('bas', 'bars')}, 'common->changed': {'setting6->removed': {'key': 'value'}, 'setting2->removed': '200', 'setting4->added': 'blah blah', 'setting5->added': {'key5': 'value5'}, 'setting3->unchanged': True, 'setting1->unchanged': 'Value 1'}, 'group2->removed': {'abc': '12345'}, 'group3->added': {'fee': '100500'}}
-
-
 def render_diff(diff, indent_lvl=1):
     result = []
     indent = '    ' * indent_lvl
@@ -33,5 +30,3 @@ def render_diff(diff, indent_lvl=1):
                 result.append(indent_plus + f'{_key}: {value[1]}')
     return '{' + '\n' + ('\n'.join(result)) + '\n'\
            + '    ' * (indent_lvl - 1) + '}'
-
-print(render_diff(diff))
