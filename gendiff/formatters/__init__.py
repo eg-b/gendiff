@@ -1,8 +1,8 @@
 from gendiff.formatters import jsontxt
 from gendiff.formatters import plain
-from gendiff.formatters import json
+import json
 
 
-FORMATTERS = {'json': json.render_diff,
+FORMATTERS = {'json': json.dumps,
               'jsontxt': jsontxt.render_diff,
               'plain': plain.render_diff}

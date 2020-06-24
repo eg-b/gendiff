@@ -1,25 +1,42 @@
-def compare(file1_data, file2_data):
+REMOVED = 'removed'
+ADDED = 'added'
+UNCHANGED = 'unchanged'
+CHANGED = 'changed'
+COMPLEX_VALUE = 'complex value'
+
+
+def compare(old_data, new_data):
     diff = {}
-    data1_set, data2_set = file1_data.keys(), file2_data.keys()
-    unchanged, updated = set(), set()
-    removed = dict.fromkeys(data1_set - data2_set)
-    added = dict.fromkeys(data2_set - data1_set)
-    for k in data1_set & data2_set:
-        if file1_data[k] == file2_data[k]:
-            unchanged.add(k)
+    old_keys, new_keys = old_data.keys(), new_data.keys()
+    for k in (old_keys - new_keys):
+        value = old_data[k]
+        if type(value) == dict:
+            value = (iterdict(value, REMOVED))
+        diff.update({k: dict(value=value, status=REMOVED)})
+    for k in (new_keys - old_keys):
+        value = new_data[k]
+        if type(value) == dict:
+            value = (iterdict(value, ADDED))
+        diff.update({k: dict(value=value, status=ADDED)})
+    for k in old_keys & new_keys:
+        old_value = old_data[k]
+        new_value = new_data[k]
+        if old_value == new_value:
+            diff.update({k: dict(value=new_value, status=UNCHANGED)})
         else:
-            if type(file1_data[k]) == dict and type(file2_data[k]) == dict:
-                children = compare(file1_data[k], file2_data[k])
-                diff.update({k + '->changed': children})
+            if type(old_value) == dict and type(new_value) == dict:
+                children = compare(old_value, new_value)
+                diff.update({k: dict(value=COMPLEX_VALUE, status=CHANGED,
+                                     children=[children])})
             else:
-                updated.add(k)
-    for k in removed:
-        diff.update({k + '->removed': file1_data[k]})
-    for k in added:
-        diff.update({k + '->added': file2_data[k]})
-    for k in unchanged:
-        diff.update({k + '->unchanged': file2_data[k]})
-    for k in updated:
-        diff.update(
-            {k + '->changed_from_to': (file1_data[k], file2_data[k])})
+                diff.update({k: dict(old_value=old_value, new_value=new_value,
+                                     status=CHANGED)})
     return diff
+
+
+def iterdict(d, status):
+    for k, v in d.items():
+        if type(v) == dict:
+            iterdict(v)
+        else:
+            return {k: {'value': v, 'status': status}}

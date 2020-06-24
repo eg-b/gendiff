@@ -1,23 +1,27 @@
-def render_diff(diff, parent=''):
-    result = []
-    sep = '->'
-    for key, value in diff.items():
-        _key = key.split(sep)[0]
-        group = key.split(sep)[1]
-        if group == 'removed':
-            result.append(f"Property '{parent}{_key}' was removed")
-        elif group == 'added':
-            if type(value) == dict:
-                value = 'complex value'
-            result.append(f"Property '{parent}{_key}'"
-                          f" was added with value: '{value}'")
-        elif group == 'changed':
-            if type(value) == dict:
-                parent += _key + '.'
-                result.append(render_diff(value, parent))
-                parent = ''
-        elif group == 'changed_from_to':
-            result.append(f"Property '{parent}{_key}' was changed."
-                          f" From '{value[0]}'"
-                          f" to '{value[1]}'")
-    return ('\n'.join(result))
+from gendiff.diff_calculator import REMOVED, ADDED, CHANGED, COMPLEX_VALUE
+
+
+def render_diff(diff):
+    def render(diff, parent=''):
+        result = []
+        for k, v in diff.items():
+            value = v.get('value')
+            status = v.get('status')
+            if status == REMOVED:
+                result.append(f"Property '{parent}{k}' was removed")
+            elif status == ADDED:
+                if type(value) == dict:
+                    value = COMPLEX_VALUE
+                result.append(f"Property '{parent}{k}'"
+                              f" was added with value: '{value}'")
+            elif status == CHANGED:
+                if value == COMPLEX_VALUE:
+                    parent += k + '.'
+                    result.append(render(v.get('children')[0], parent))
+                    parent = ''
+                else:
+                    result.append(f"Property '{parent}{k}' was changed."
+                                  f" From \'{v.get('old_value')}\'"
+                                  f" to \'{v.get('new_value')}\'")
+        return ('\n'.join(result))
+    return(render(diff))
