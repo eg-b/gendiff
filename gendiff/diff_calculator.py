@@ -34,8 +34,8 @@ def compare(old_data, new_data):
     return diff
 
 
-def iterdict(d, status):
-    for k, v in d.items():
+def iterdict(value, status):
+    for k, v in value.items():
         if type(v) == dict:
             iterdict(v)
         else:
