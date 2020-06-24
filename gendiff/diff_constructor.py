@@ -26,5 +26,3 @@ def get_file_data(file_format, path_to_file):
     else:
         print("Wrong file format. Try these: '.yaml', '.yml', '.json'")
         raise SystemExit
-
-

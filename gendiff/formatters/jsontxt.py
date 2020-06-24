@@ -25,11 +25,13 @@ def render_diff(diff):
                     result.append(indent_plus + new_string)
                 elif status == CHANGED:
                     if value == COMPLEX_VALUE:
-                        value = render(v.get('children')[0], indent_lvl +1)
+                        value = render(v.get('children')[0], indent_lvl + 1)
                         result.append(indent + f'{k}: {value}')
                     else:
-                        result.append(indent_minus + f'{k}: {v.get("old_value")}')
-                        result.append(indent_plus + f'{k}: {v.get("new_value")}')
+                        result.append(
+                            indent_minus + f'{k}: {v.get("old_value")}')
+                        result.append(
+                            indent_plus + f'{k}: {v.get("new_value")}')
         return '{' + '\n' + ('\n'.join(result)) + '\n' \
                + '    ' * (indent_lvl - 1) + '}'
     return render(diff)

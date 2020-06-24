@@ -26,16 +26,17 @@ def compare(old_data, new_data):
         else:
             if type(old_value) == dict and type(new_value) == dict:
                 children = compare(old_value, new_value)
-                diff.update({k: dict(value=COMPLEX_VALUE, status=CHANGED, children=[children])})
+                diff.update({k: dict(value=COMPLEX_VALUE, status=CHANGED,
+                                     children=[children])})
             else:
-                diff.update({k:dict(old_value=old_value,
-                                  new_value=new_value,
-                                  status=CHANGED)})
+                diff.update({k: dict(old_value=old_value, new_value=new_value,
+                                     status=CHANGED)})
     return diff
 
+
 def iterdict(d, status):
-  for k,v in d.items():
-     if type(v) == dict:
-         iterdict(v)
-     else:
-         return {k: {'value': v, 'status': status}}
+    for k, v in d.items():
+        if type(v) == dict:
+            iterdict(v)
+        else:
+            return {k: {'value': v, 'status': status}}
