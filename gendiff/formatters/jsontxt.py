@@ -11,7 +11,7 @@ def render_diff(diff):
         for k, v in diff.items():
             value = v.get('value')
             status = v.get('status')
-            if type(value) == dict:
+            if type(value) == dict and v.get('children') is None:
                 value = render(value, indent_lvl + 1, ignore_status=True)
             new_string = f'{k}: {value}'
             if ignore_status is True:
