@@ -1,18 +1,18 @@
-from gendiff.diff_calculator import REMOVED, ADDED, CHANGED, UNCHANGED,\
+from gendiff.calculator import REMOVED, ADDED, CHANGED, UNCHANGED,\
     COMPLEX_VALUE
 
 
-def render_diff(diff):
-    def render(diff, indent_lvl=1, ignore_status=False):
+def render(diff):
+    def _render(diff, indent_lvl=1, ignore_status=False):
         result = []
         indent = '    ' * indent_lvl
         indent_minus = indent[:-2] + '- '
         indent_plus = indent[:-2] + '+ '
         for k, v in diff.items():
             value = v.get('value')
-            status = v.get('status')
             if type(value) == dict and v.get('children') is None:
-                value = render(value, indent_lvl + 1, ignore_status=True)
+                value = _render(value, indent_lvl + 1, ignore_status=True)
+            status = v.get('status')
             new_string = f'{k}: {value}'
             if ignore_status is True:
                 result.append(indent + new_string)
@@ -25,7 +25,7 @@ def render_diff(diff):
                     result.append(indent_plus + new_string)
                 elif status == CHANGED:
                     if value == COMPLEX_VALUE:
-                        value = render(v.get('children')[0], indent_lvl + 1)
+                        value = _render(v.get('children')[0], indent_lvl + 1)
                         result.append(indent + f'{k}: {value}')
                     else:
                         result.append(
@@ -34,4 +34,4 @@ def render_diff(diff):
                             indent_plus + f'{k}: {v.get("new_value")}')
         return '{' + '\n' + ('\n'.join(result)) + '\n' \
                + '    ' * (indent_lvl - 1) + '}'
-    return render(diff)
+    return _render(diff)

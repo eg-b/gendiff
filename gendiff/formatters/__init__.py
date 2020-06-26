@@ -4,5 +4,5 @@ import json
 
 
 FORMATTERS = {'json': json.dumps,
-              'jsontxt': jsontxt.render_diff,
-              'plain': plain.render_diff}
+              'jsontxt': jsontxt.render,
+              'plain': plain.render}

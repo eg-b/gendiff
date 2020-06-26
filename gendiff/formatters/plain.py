@@ -1,8 +1,8 @@
-from gendiff.diff_calculator import REMOVED, ADDED, CHANGED, COMPLEX_VALUE
+from gendiff.calculator import REMOVED, ADDED, CHANGED, COMPLEX_VALUE
 
 
-def render_diff(diff):
-    def render(diff, parent=''):
+def render(diff):
+    def _render(diff, parent=''):
         result = []
         for k, v in diff.items():
             value = v.get('value')
@@ -17,11 +17,11 @@ def render_diff(diff):
             elif status == CHANGED:
                 if value == COMPLEX_VALUE:
                     parent += k + '.'
-                    result.append(render(v.get('children')[0], parent))
+                    result.append(_render(v.get('children')[0], parent))
                     parent = ''
                 else:
-                    result.append(f"Property '{parent}{k}' was changed."
-                                  f" From \'{v.get('old_value')}\'"
-                                  f" to \'{v.get('new_value')}\'")
+                    result.append(f"Property '{parent}{k}' was changed. "
+                                  f"From \'{v.get('old_value')}\' "
+                                  f"to \'{v.get('new_value')}\'")
         return ('\n'.join(result))
-    return(render(diff))
+    return(_render(diff))
