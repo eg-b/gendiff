@@ -7,7 +7,8 @@ COMPLEX_VALUE = 'complex value'
 
 def compare(old_data, new_data):
     diff = {}
-    old_keys, new_keys = old_data.keys(), new_data.keys()
+    old_keys = old_data.keys()
+    new_keys = new_data.keys()
     for k in (old_keys - new_keys):
         diff.update({k: dict(value=get_value(old_data[k]), status=REMOVED)})
     for k in (new_keys - old_keys):
