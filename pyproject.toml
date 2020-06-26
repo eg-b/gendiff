@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "eg-b_gendiff"
-version = "0.7.0"
+version = "0.7.1"
 description = "generate difference"
 authors = ["eg_b <egbv.py@gmail.com>"]
 packages = [
