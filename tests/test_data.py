@@ -32,15 +32,17 @@ AFTER = {
         }
     }
 
-DIFF = {'group2': {'value': {'abc': {'value': '12345', 'status': 'removed'}}, 'status': 'removed'},
-        'group3': {'value': {'fee': {'value': '100500', 'status': 'added'}}, 'status': 'added'},
-        'common': {'value': 'complex value', 'status': 'changed', 'children': [
-            {'setting6': {'value': {'key': {'value': 'value', 'status': 'removed'}}, 'status': 'removed'},
-             'setting2': {'value': '200', 'status': 'removed'},
-             'setting5': {'value': {'key5': {'value': 'value5', 'status': 'added'}}, 'status': 'added'},
-             'setting4': {'value': 'blah blah', 'status': 'added'},
-             'setting3': {'value': True, 'status': 'unchanged'}}]},
-        'group1': {'value': 'complex value', 'status': 'changed', 'children': [
-            {'foo': {'value': 'bar', 'status': 'unchanged'},
-             'baz': {'old_value': 'bas', 'new_value': 'bars', 'status': 'changed'}}]}}
+DIFF = {'common': {'children': [
+    {'setting2': {'status': 'removed', 'value': '200'},
+     'setting3': {'status': 'unchanged', 'value': True},
+     'setting4': {'status': 'added', 'value': 'blah blah'},
+     'setting5': {'status': 'added', 'value': {'key5': {'value': 'value5'}}},
+     'setting6': {'status': 'removed', 'value': {'key': {'value': 'value'}}}}
+    ], 'status': 'changed', 'value': 'complex value'},
+    'group1': {'children': [
+        {'baz': {'new_value': 'bars', 'old_value': 'bas', 'status': 'changed'},
+         'foo': {'status': 'unchanged', 'value': 'bar'}}
+    ], 'status': 'changed', 'value': 'complex value'},
+    'group2': {'status': 'removed', 'value': {'abc': {'value': '12345'}}},
+    'group3': {'status': 'added', 'value': {'fee': {'value': '100500'}}}}
 
