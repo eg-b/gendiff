@@ -5,10 +5,6 @@
     "setting3": true,
     "setting6": {
       "key": "value"
-    },
-    "site": {
-      "base": "hexlet.io",
-      "base2": "hexlet.io"
     }
   },
   "group1": {
@@ -19,5 +15,3 @@
     "abc": "12345"
   }
 }
-
-

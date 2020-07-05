@@ -24,4 +24,4 @@
 
 ### json format diff
 
-[![asciicast](https://asciinema.org/a/RBpjnwEDImzFeAgp4JLYwUzeE.svg)](https://asciinema.org/a/RBpjnwEDImzFeAgp4JLYwUzeE)
+[![asciicast](https://asciinema.org/a/bO8SKvCBod6bKdz1j5NrSqjDp.svg)](https://asciinema.org/a/bO8SKvCBod6bKdz1j5NrSqjDp)

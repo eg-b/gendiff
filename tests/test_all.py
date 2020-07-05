@@ -1,21 +1,28 @@
-from gendiff.constructor import compare, generate_diff
+from gendiff.build import compare, generate_diff, \
+    UNKNOWN_FILE_FORMAT_ERROR, UNKNOWN_OUTPUT_FORMAT_ERROR
 from gendiff.formatters import jsontxt, plain
-from tests import test_data
+from tests import input_data as test
 import json
 import os
+import pytest
 
 
 JSON_1 = 'tests/fixtures/1.json'
 JSON_2 = 'tests/fixtures/2.json'
 YAML_1 = 'tests/fixtures/1.yaml'
 YAML_2 = 'tests/fixtures/2.yaml'
+JSONTXT_RESULT = 'tests/fixtures/exp_result_jsontxt_diff'
+JSON_RESULT = 'tests/fixtures/exp_result_json_diff.json'
 
 
 class TestCompare:
 
-    def test_compare(self):
-        diff = compare(test_data.BEFORE, test_data.AFTER)
-        assert diff == test_data.DIFF
+    @pytest.mark.parametrize("data1,data2,exp_result",
+                             [(test.BEFORE, test.AFTER, test.DIFF),
+                              (test.BEFORE2, test.AFTER2, test.DIFF2)])
+    def test_compare(self, data1, data2, exp_result):
+        diff = compare(data1, data2)
+        assert diff == exp_result
 
 
 class TestPaths:
@@ -43,26 +50,22 @@ class TestPaths:
 
     def test_wrong_format(self):
         assert generate_diff(plain.render, JSON_1, '1.txt')\
-            == "Wrong file format. Try these: '.yaml', '.yml', '.json'"
+            == UNKNOWN_FILE_FORMAT_ERROR
 
 
 class TestRender:
 
     def test_jsontxt_format(self):
-        expected_result = get_content('tests/fixtures/exp_result_diff')
-        assert jsontxt.render(test_data.DIFF) == expected_result
-
-    def test_plain_format(self):
-        expected_result = get_content('tests/fixtures/exp_result_plain_diff')
-        assert plain.render(test_data.DIFF) == expected_result
+        expected_result = get_content(JSONTXT_RESULT)
+        assert jsontxt.render(test.DIFF) == expected_result
 
     def test_json_format(self):
-        expected_result = get_content('tests/fixtures/exp_result_json_diff')
-        assert json.dumps(test_data.DIFF) == expected_result
+        expected_result = json.load(open(os.path.realpath(JSON_RESULT)))
+        assert compare(test.BEFORE, test.AFTER) == expected_result
 
     def test_wrong_format(self):
         assert generate_diff(None, JSON_1, JSON_2)\
-        == "Wrong output format. Try these: 'jsontxt', 'json', 'plain'"
+        == UNKNOWN_OUTPUT_FORMAT_ERROR
 
 
 def get_content(file):
