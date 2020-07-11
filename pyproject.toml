@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "eg-b_gendiff"
-version = "0.8.3"
+version = "0.8.4"
 description = "find difference between 2 files"
 authors = ["eg_b <egbv.py@gmail.com>"]
 packages = [

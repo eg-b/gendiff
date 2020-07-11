@@ -1,4 +1,4 @@
-from gendiff.build import compare, generate_diff, \
+from gendiff.app import compare, generate_diff, \
     UNKNOWN_FILE_FORMAT_ERROR, UNKNOWN_OUTPUT_FORMAT_ERROR
 from gendiff.formatters import jsontxt, plain
 from tests import input_data as test

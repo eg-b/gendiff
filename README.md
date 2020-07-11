@@ -2,6 +2,11 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/f2371655977d1a500b73/test_coverage)](https://codeclimate.com/github/eg-b/python-project-lvl2/test_coverage)
 [![Build Status](https://travis-ci.com/eg-b/python-project-lvl2.svg?branch=master)](https://travis-ci.com/eg-b/python-project-lvl2)
 
+Installation: python3 -m pip install --user -i https://test.pypi.org/simple/
+--extra-index-url https://pypi.org/simple/ eg-b-gendiff
+
+Usage: gendiff [-h] [-f FORMAT] first_file second_file
+
 ### Installation
 
 [![asciicast](https://asciinema.org/a/g2sWU1Tc52NyT47X7Pp2Fnl4U.svg)](https://asciinema.org/a/g2sWU1Tc52NyT47X7Pp2Fnl4U)

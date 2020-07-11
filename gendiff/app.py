@@ -1,4 +1,4 @@
-from gendiff.calculate import compare
+from gendiff.diff import compare
 from gendiff import LOADERS
 import os
 
