@@ -7,7 +7,6 @@ COMPLEX_VALUE = 'complex value'
 VALUE = 'value'
 OLD_VALUE = 'old_value'
 NEW_VALUE = 'new_value'
-CHILDREN = 'children'
 
 
 def compare(old_data, new_data):
@@ -25,9 +24,8 @@ def compare(old_data, new_data):
             diff.update({k: {VALUE: new_value, STATUS: UNCHANGED}})
         else:
             if isinstance(old_value, dict) and isinstance(new_value, dict):
-                diff.update({k: {VALUE: COMPLEX_VALUE, STATUS: CHANGED,
-                                 CHILDREN: [compare(old_value,
-                                                    new_value)]}})
+                diff.update({k: {VALUE: compare(old_value, new_value),
+                                 STATUS: COMPLEX_VALUE}})
             else:
                 diff.update({k: {OLD_VALUE: old_value,
                                  NEW_VALUE: new_value,

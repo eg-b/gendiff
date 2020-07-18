@@ -2,8 +2,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/f2371655977d1a500b73/test_coverage)](https://codeclimate.com/github/eg-b/python-project-lvl2/test_coverage)
 [![Build Status](https://travis-ci.com/eg-b/python-project-lvl2.svg?branch=master)](https://travis-ci.com/eg-b/python-project-lvl2)
 
-Installation: python3 -m pip install --user -i https://test.pypi.org/simple/
---extra-index-url https://pypi.org/simple/ eg-b-gendiff
+Installation: python3 -m pip install --user -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ eg-b-gendiff
 
 Usage: gendiff [-h] [-f FORMAT] first_file second_file
 
@@ -29,4 +28,4 @@ Usage: gendiff [-h] [-f FORMAT] first_file second_file
 
 ### json format diff
 
-[![asciicast](https://asciinema.org/a/bO8SKvCBod6bKdz1j5NrSqjDp.svg)](https://asciinema.org/a/bO8SKvCBod6bKdz1j5NrSqjDp)
+[![asciicast](https://asciinema.org/a/PFrML5oqd8ldw6JUAui3iYOlD.svg)](https://asciinema.org/a/PFrML5oqd8ldw6JUAui3iYOlD)

@@ -15,13 +15,12 @@ def render(_diff):
                 result.append(f"Property '{parent}{k}'"
                               f" was added with value: '{value}'")
             elif status == diff.CHANGED:
-                if value == diff.COMPLEX_VALUE:
-                    parent += k + '.'
-                    result.append(_render(v[diff.CHILDREN][0], parent))
-                    parent = ''
-                else:
-                    result.append(f"Property '{parent}{k}' was changed. "
-                                  f"From \'{v[diff.OLD_VALUE]}\' "
-                                  f"to \'{v[diff.NEW_VALUE]}\'")
+                result.append(f"Property '{parent}{k}' was changed. "
+                              f"From \'{v[diff.OLD_VALUE]}\' "
+                              f"to \'{v[diff.NEW_VALUE]}\'")
+            elif status == diff.COMPLEX_VALUE:
+                parent += k + '.'
+                result.append(_render(value, parent))
+                parent = ''
         return ('\n'.join(result))
     return(_render(_diff))
