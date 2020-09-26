@@ -14,3 +14,6 @@ build: check
 
 test:
 	pytest --cov-report xml --cov=tests/
+
+publish:
+	poetry publish -r testpypi
