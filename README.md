@@ -2,7 +2,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/f2371655977d1a500b73/test_coverage)](https://codeclimate.com/github/eg-b/python-project-lvl2/test_coverage)
 [![Build Status](https://travis-ci.com/eg-b/python-project-lvl2.svg?branch=master)](https://travis-ci.com/eg-b/python-project-lvl2)
 
-Сommand line tool that helps you find the difference between two files. Works with json and yaml.
+### Сommand line tool that helps you find the difference between two files. Works with json and yaml.
 
 ### Usage
 ```sh
