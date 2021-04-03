@@ -13,7 +13,7 @@ build: check
 	poetry build
 
 test:
-	pytest --cov-report xml --cov=tests/
+	poetry run pytest --cov=gendiff tests/ --cov-report xml
 
 publish:
 	poetry publish -r testpypi
